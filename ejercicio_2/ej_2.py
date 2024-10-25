@@ -35,8 +35,8 @@ señal_filtrada = lfilter(filtro_fir, 1.0, señal_wav)
 señal_tension = (señal_filtrada - np.min(señal_filtrada)) / (np.max(señal_filtrada) - np.min(señal_filtrada))
 
 # 8. Guardar la señal resultante en un nuevo archivo .wav
-ruta_salida = 'C:/Users/tayia/Desktop/DSP/ejercicio_2/salida_filtrada.wav'  # Cambiar por la ruta deseada
-señal_tension_int = np.int16(señal_tension * 32767)  # Convertir a entero para guardar en .wav
+ruta_salida = 'C:/Users/tayia/Desktop/DSP/ejercicio_2/salida_filtrada_sinNormalizar.wav'  # Cambiar por la ruta deseada
+señal_tension_int = np.int16(señal_filtrada * 32767)  # Convertir a entero para guardar en .wav
 wavfile.write(ruta_salida, fs, señal_tension_int)
 
 print("El archivo filtrado se ha guardado como:", ruta_salida)
