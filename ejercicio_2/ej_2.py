@@ -1,6 +1,7 @@
 from scipy.io import wavfile
 from scipy.signal import firwin, lfilter
 import numpy as np
+import matplotlib.pyplot as plt
 
 # 1. Leer el archivo .wav proporcionado
 ruta_archivo = 'C:/Users/tayia/Desktop/DSP/martin_m1.wav'  # Cambiar por la ruta correcta
@@ -20,23 +21,20 @@ highcut = 2300  # Frecuencia superior (Hz)
 # 4. Diseño del filtro FIR pasa banda
 filtro_fir = firwin(n_taps, [lowcut, highcut], pass_zero='bandpass', fs=fs)
 
-# 5. Guardar los coeficientes del filtro FIR en un archivo .txt
-ruta_taps = 'C:/Users/tayia/Desktop/DSP/ejercicio_2/taps_fir.txt'  # Cambiar por la ruta deseada
-taps_str = ', '.join(map(str, filtro_fir))
-with open(ruta_taps, 'w') as file:
-    file.write(taps_str)
-
-print("Los taps del filtro se han guardado como:", ruta_taps)
-
-# 6. Aplicar el filtro FIR a la señal .wav
+# 5. Aplicar el filtro FIR a la señal .wav
 señal_filtrada = lfilter(filtro_fir, 1.0, señal_wav)
 
-# 7. Normalizar la señal filtrada a un rango de 0 a 1V
+# 6. Centrar la señal en 0V
+#señal_filtrada = señal_filtrada - np.mean(señal_filtrada)
+
+# 7. Normalizar la señal a un rango de 0 a 1V
 señal_tension = (señal_filtrada - np.min(señal_filtrada)) / (np.max(señal_filtrada) - np.min(señal_filtrada))
 
-# 8. Guardar la señal resultante en un nuevo archivo .wav
-ruta_salida = 'C:/Users/tayia/Desktop/DSP/ejercicio_2/salida_filtrada_sinNormalizar.wav'  # Cambiar por la ruta deseada
-señal_tension_int = np.int16(señal_filtrada * 32767)  # Convertir a entero para guardar en .wav
-wavfile.write(ruta_salida, fs, señal_tension_int)
-
-print("El archivo filtrado se ha guardado como:", ruta_salida)
+# 8. Visualizar la señal normalizada en el dominio del tiempo
+plt.figure(figsize=(10, 4))
+plt.plot(señal_tension[800:1800])  # Muestra una parte de la señal para mayor claridad
+plt.title('Señal Normalizada en el Dominio del Tiempo')
+plt.xlabel('Muestras')
+plt.ylabel('Amplitud (0 a 1V)')
+plt.grid(True)
+plt.show()
