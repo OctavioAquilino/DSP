@@ -2,7 +2,7 @@ from scipy.io import wavfile
 from scipy.signal import remez, lfilter
 import matplotlib.pyplot as plt
 
-# Cargar el archivo WAV
+# Cargar el archiv
 fs, data = wavfile.read('martin_m1.wav')
 
 # Parámetros del filtro FIR

@@ -3,7 +3,6 @@ from scipy.io import wavfile
 import matplotlib.pyplot as plt
 
 def goertzel(s, fs, target_freq):
-    """Implementación del algoritmo de Goertzel para detectar una frecuencia específica."""
     n = len(s)
     k = int(0.5 + (n * target_freq / fs))
     w = 2 * np.pi * k / n
@@ -22,11 +21,22 @@ def goertzel(s, fs, target_freq):
     power = s_prev2**2 + s_prev**2 - coef * s_prev * s_prev2
     return power
 
-# Cargar el archivo WAV
+
 fs, data = wavfile.read('martin_m1.wav')
 
-# Aplicar el algoritmo de Goertzel para detectar 1200 Hz
-target_freq = 1200
-power = goertzel(data, fs, target_freq)
+# rango de frecuencias a analizar
+frecuencias = np.arange(1000, 1501, 10)  
 
-print(f"Potencia detectada en {target_freq} Hz: {power}")
+potencias = []
+
+# Aplicar el algoritmo de Goertzel
+for freq in frecuencias:
+    potencia = goertzel(data, fs, freq)
+    potencias.append(potencia)
+
+plt.plot(frecuencias, potencias)
+plt.title('Potencia detectada vs Frecuencia')
+plt.xlabel('Frecuencia (Hz)')
+plt.ylabel('Potencia')
+plt.grid(True)
+plt.show()
