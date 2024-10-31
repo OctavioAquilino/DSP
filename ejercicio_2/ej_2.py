@@ -3,7 +3,7 @@ from scipy.signal import firwin, lfilter
 import numpy as np
 
 # Leer el archivo .wav 
-ruta_archivo = './martin_m1.wav'  
+ruta_archivo = 'C:/Users/tayia/Desktop/DSP/martin_m1.wav'  
 fs, señal_wav = wavfile.read(ruta_archivo)
 
 # Confirmar la frecuencia de muestreo
@@ -21,7 +21,7 @@ highcut = 2300  # Frecuencia superior (Hz)
 filtro_fir = firwin(n_taps, [lowcut, highcut], pass_zero='bandpass', fs=fs)
 
 # Guardar los coeficientes del filtro FIR en un archivo .txt
-ruta_taps = './taps_fir.txt'  
+ruta_taps = 'C:/Users/tayia/Desktop/DSP/ejercicio_2/taps_fir.txt'  
 taps_str = ', '.join(map(str, filtro_fir))
 with open(ruta_taps, 'w') as file:
     file.write(taps_str)
@@ -35,7 +35,7 @@ señal_filtrada = lfilter(filtro_fir, 1.0, señal_wav)
 señal_tension = (señal_filtrada - np.min(señal_filtrada)) / (np.max(señal_filtrada) - np.min(señal_filtrada))
 
 # Guardar la señal resultante en un .wav
-ruta_salida = './salida_filtrada.wav' 
+ruta_salida = 'C:/Users/tayia/Desktop/DSP/ejercicio_2/salida_filtrada.wav' 
 señal_tension_int = np.int16(señal_tension * 32767)  
 wavfile.write(ruta_salida, fs, señal_tension_int)
 
