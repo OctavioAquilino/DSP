@@ -52,7 +52,9 @@ class Toolbox:
         dfase = 2*pi*f/self.fs
 
         while True:
-            yield sin(fase)
+            newfr = (yield sin(fase)) #Se agrega este cambios para poder cambiar la f funcionando
+            if newfr is not None:
+                dfase = 2*pi*newfr/self.fs
             fase += dfase
 
 
