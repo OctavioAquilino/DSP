@@ -9,16 +9,13 @@ if fs != 22050:
 if señal_wav.ndim > 1:
     señal_wav = señal_wav[:, 0] 
 
-# 3. Parámetros para el filtro FIR
 n_taps = 121 
-lowcut = 1500  # Frecuencia inferior (Hz)
-highcut = 2300  # Frecuencia superior (Hz)
+lowcut = 1500  
+highcut = 2300  
 
-# 4. Diseño del filtro FIR pasa banda
 filtro_fir = firwin(n_taps, [lowcut, highcut], pass_zero='bandpass', fs=fs)
 
-# 5. Guardar los coeficientes del filtro FIR en un archivo .txt
-ruta_taps = './taps_fir_martin.txt'
+ruta_taps = './taps_fir_martin_test.txt'
 taps_str = ', '.join(map(str, filtro_fir))
 
 with open(ruta_taps, 'w') as file:
@@ -28,10 +25,8 @@ señal_filtrada = lfilter(filtro_fir, 1.0, señal_wav)
 
 señal_filtrada_centrada = señal_filtrada - np.mean(señal_filtrada)
 
-# 8. Normalizar la señal filtrada centrada a un rango de 0 a 1V
 señal_tension = (señal_filtrada_centrada - np.min(señal_filtrada_centrada)) / (np.max(señal_filtrada_centrada) - np.min(señal_filtrada_centrada))
 
-# 9. Guardar la señal resultante en un nuevo archivo .wav
 ruta_salida = './salida_filtrada_martin.wav' 
 señal_tension_int = np.int16(señal_tension * 32767)  
 wavfile.write(ruta_salida, fs, señal_tension_int)
