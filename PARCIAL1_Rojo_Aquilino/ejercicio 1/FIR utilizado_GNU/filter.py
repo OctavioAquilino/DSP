@@ -3,9 +3,9 @@ from scipy.signal import firwin, freqz
 import matplotlib.pyplot as plt
 
 fs = 22050  
-fcd = 1100 
-fcu = 1300
-num_taps = 200  
+fcd = 1150 
+fcu = 1250
+num_taps = 500  
 
 fir_filter = firwin(num_taps, cutoff=[fcd,fcu], fs=fs,pass_zero=False)
 print(fir_filter)
