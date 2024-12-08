@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 fs = 22050  
 fcd = 1100 
 fcu = 1300
-num_taps = 121  
+num_taps = 200  
 
 fir_filter = firwin(num_taps, cutoff=[fcd,fcu], fs=fs,pass_zero=False)
 print(fir_filter)
