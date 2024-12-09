@@ -1,6 +1,7 @@
 from scipy.io import wavfile
-from scipy.signal import firwin, lfilter
+from scipy.signal import firwin, lfilter, freqz
 import numpy as np
+import matplotlib.pyplot as plt
 
 ruta_archivo = './martin_m1.wav'
 fs, señal_wav = wavfile.read(ruta_archivo)
@@ -32,3 +33,15 @@ señal_tension_int = np.int16(señal_tension * 32767)
 wavfile.write(ruta_salida, fs, señal_tension_int)
 
 print("El archivo filtrado se ha guardado como:", ruta_salida)
+
+frecuencia, respuesta = freqz(filtro_fir, worN=8000, fs=fs)
+plt.figure(figsize=(10, 6))
+plt.plot(frecuencia, 20 * np.log10(abs(respuesta)), label="Respuesta del filtro")
+plt.title("Respuesta en frecuencia del filtro FIR")
+plt.xlabel("Frecuencia (Hz)")
+plt.ylabel("Magnitud (dB)")
+plt.grid()
+plt.axvline(lowcut, color='red', linestyle='--', label=f"Corte inferior: {lowcut} Hz")
+plt.axvline(highcut, color='green', linestyle='--', label=f"Corte superior: {highcut} Hz")
+plt.legend()
+plt.show()
