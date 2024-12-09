@@ -17,25 +17,19 @@ def goertzel(s, fs, target_freq):
         s_prev2 = s_prev
         s_prev = s_next
 
-    # Cálculo de la potencia en la frecuencia objetivo
     power = s_prev2**2 + s_prev**2 - coef * s_prev * s_prev2
     return power
 
-# Cargar el archivo WAV
 fs, data = wavfile.read('martin_m1.wav')
 
-# Definir el rango de frecuencias a analizar
-frecuencias = np.arange(1000, 1501, 10)  # Desde 1000 Hz hasta 1500 Hz
+frecuencias = np.arange(1150, 1251, 2) 
 
-# Lista para almacenar las potencias detectadas
 potencias = []
 
-# Aplicar el algoritmo de Goertzel a cada frecuencia en el rango
 for freq in frecuencias:
     potencia = goertzel(data, fs, freq)
     potencias.append(potencia)
 
-# Graficar la potencia detectada en función de la frecuencia
 plt.plot(frecuencias, potencias)
 plt.title('Potencia detectada vs Frecuencia')
 plt.xlabel('Frecuencia (Hz)')
